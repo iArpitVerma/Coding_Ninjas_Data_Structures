@@ -5,8 +5,9 @@ int print1ToN(int n){
         cout<<1<<" ";
         return 1;
     }
-    cout<<1 + print1ToN(n-1)<<" ";
-    return 1 + print1ToN(n-1);
+    int num = 1 + print1ToN(n-1);
+    cout<<num<<" ";
+    return num;
 }
 int main(){
     int n;
