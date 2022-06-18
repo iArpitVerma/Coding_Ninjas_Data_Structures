@@ -6,9 +6,7 @@ int subsetsSumToK(int input[],int n,int k){
         if(k==0){
             return 1;
         }
-        else{
-            return 0;
-        }
+        return 0;
     }
 
     int s1 = subsetsSumToK(input+1,n-1,k);
