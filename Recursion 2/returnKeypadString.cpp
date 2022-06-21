@@ -1,36 +1,34 @@
 #include <iostream>
 #include<cstring>
 using namespace std;
-string key[]={" ", " ","abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"};
+int keypadString(int num, string* output, string keypad[]){
+    int x = num%10;
+    if(x==0 || x==1){
+        output[0] = "";
+        return 1;
+    }
+    int smallOutputSize = keypadString(num/10,output,keypad);
+    for(int i=1;i<keypad[x].size();i++){
+        for(int j=0;j<smallOutputSize;j++){
+            output[smallOutputSize*i +j] = output[j];
+        }
+    }
 
-int returnKeypad(int num, string output[]){
-    /* Insert all the possible combinations of the integer number into the output string array. You do not need to
-    print anything, just return the number of strings inserted into the array.
-    */
-    int x=num%10;
-    //base case
-    if(x==0 ||x==1)
-    {     output[0]="";
-          return 1;
-    }
-    
-    int SizeOfSmall=returnKeypad(num/10,output);
-    for(int i=1;i<key[x].size();i++){
-        for(int j=0;j<SizeOfSmall;j++){
-            output[SizeOfSmall*i+j]=output[j];
+    for(int i=0;i<keypad[x].size();i++){
+        for(int j=0;j<smallOutputSize;j++){
+            output[smallOutputSize*i + j] = output[smallOutputSize*i + j] +keypad[x][i];
         }
     }
-    for(int i=0;i<key[x].size();i++){
-        for(int j=0;j<SizeOfSmall;j++){
-            output[SizeOfSmall*i+j]=output[SizeOfSmall*i+j]+key[x][i];
-        }
-    }
-    return SizeOfSmall*key[x].size();   
+
+    return smallOutputSize*keypad[x].size();
 }
-
 int main(){
-    int n;
-    cin>>n;
+    int num;
+    cin>>num;
     string * output = new string[1000];
-    cout<<returnKeypad(n,output)<<endl;
+    string keypad[] = {" ", " ", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+    int numOfStrings = keypadString(num,output,keypad);
+    for(int i=0;i<numOfStrings;i++){
+        cout<<output[i]<<endl;
+    }
 }
