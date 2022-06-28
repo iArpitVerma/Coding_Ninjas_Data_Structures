@@ -66,6 +66,20 @@ pair1 reverse1(node* head){
 
     return smallAns;
 }
+
+// Time Complexity - O(n)
+node* reverse2(node* head){
+    if(head == NULL || head->next == NULL){
+        return head;
+    }
+
+    node* smallAns = reverse2(head->next);
+    node* tail = head->next;
+    tail->next = head;
+    head->next = NULL;
+    
+    return smallAns;
+}
 void print(node* head){
     while(head != NULL ){
         cout<<head->data<<" ";
@@ -75,6 +89,8 @@ void print(node* head){
 }
 int main(){
     node* head = takeInput();
-    head = reverse1(head).head;
+    // head = reverse(head);
+    // head = reverse1(head).head;
+    head = reverse2(head);
     print(head);
 }
