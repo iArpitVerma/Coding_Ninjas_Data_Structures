@@ -1,22 +1,7 @@
-#include<iostream>
+#include<bits/stdc++.h>
+#include"treeNode.h"
 #include<queue>
 using namespace std;
-#include"treeNode.h"
-
-treeNode<int>* takeInput(){
-    int data;
-    cout<<"Enter data"<<endl;
-    cin>>data;
-    treeNode<int>* root = new treeNode<int>(data);
-    cout<<"Enter number of children"<<endl;
-    int n;
-    cin>>n;
-    for(int i=0;i<n;i++){
-        treeNode<int>* child = takeInput();
-        root->children.push_back(child);
-    }
-    return root;
-}
 
 treeNode<int>* takeInputLevelWise(){
     int rootData;
@@ -46,7 +31,9 @@ treeNode<int>* takeInputLevelWise(){
     return root;
 }
 
-void printNodeLevelWise(treeNode<int>* root){
+// Level Wise
+treeNode<int>* largestNode(treeNode<int>* root){
+    treeNode<int>* max = new treeNode<int>(INT_MIN);
     queue<treeNode<int>*> pendingNodes;
     pendingNodes.push(root);
 
@@ -54,36 +41,30 @@ void printNodeLevelWise(treeNode<int>* root){
         treeNode<int>* front = pendingNodes.front();
         pendingNodes.pop();
 
-        cout<<front->data<<" : ";
-        for(int i=0;i<front->children.size();i++){
-            treeNode<int>* child = front->children[i];
-            pendingNodes.push(child);
-            if(i == front->children.size() - 1){
-                cout<<child->data;
-            }else{
-                cout<<child->data<<",";
-            }
+        if(front->data > max->data){
+            max = front;
         }
-        cout<<endl;    
+        for(int i=0;i<front->children.size();i++){
+            pendingNodes.push(front->children[i]);
+        }
     }
-
+    return max;
 }
 
-void printNode(treeNode<int>* root){
-    if(root == NULL){
-        return;
-    }
-    cout<<root->data<<" : ";
+// Recursive
+treeNode<int>* largestNode1(treeNode<int>* root){
+    treeNode<int>* max = new treeNode<int>(root->data);
+
     for(int i=0;i<root->children.size();i++){
-        cout<<root->children[i]->data<<",";
+        treeNode<int>* child = largestNode1(root->children[i]);
+        if(child->data > max->data){
+            max = child;
+        }
     }
-    cout<<endl;
-    for(int i=0;i<root->children.size();i++){
-        printNode(root->children[i]);
-    }
+    return max;
 }
 int main(){
     treeNode<int>* root = takeInputLevelWise();
-    printNodeLevelWise(root);
+    cout<<largestNode1(root)->data<<endl;
     delete root;
 }
