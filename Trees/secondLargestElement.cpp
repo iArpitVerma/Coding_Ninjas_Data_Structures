@@ -45,8 +45,8 @@ pair1 secondLargest(treeNode<int>* root){
                 ans.smax = temp.max;
             }
         }
+        // Nodes are copied instead of their data in order to prevent the case of accessing data of null node.
         else{
-
             if(temp.smax == NULL){
                 ans.smax = ans.max;
                 ans.max = temp.max;
