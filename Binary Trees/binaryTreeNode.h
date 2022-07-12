@@ -1,4 +1,3 @@
-#include<iostream>
 #include<queue>
 using namespace std;
 template <typename T>
@@ -85,26 +84,32 @@ void printLevelWise(binaryTreeNode<int>* root){
 
 
 void printLevelAtNewLine(binaryTreeNode<int> *root) {
-    queue<binaryTreeNode<int> *> q;
-    q.push(root);
-    q.push(NULL);
-    while (!q.empty()) {
-        binaryTreeNode<int> *first = q.front();
-        q.pop();
-        if (first == NULL) {
-            if (q.empty()) {
+   if(root == NULL){
+        return;
+    }
+    queue<binaryTreeNode<int>*> pendingNodes;
+    pendingNodes.push(root);
+    pendingNodes.push(NULL);
+    
+    while(!pendingNodes.empty()){
+        binaryTreeNode<int>* front = pendingNodes.front();
+        pendingNodes.pop();
+        
+        if(front == NULL){
+            cout<<endl;
+            if(pendingNodes.empty()){
                 break;
             }
-            cout << endl;
-            q.push(NULL);
+            pendingNodes.push(NULL);
             continue;
         }
-        cout << first->data << " ";
-        if (first->left != NULL) {
-            q.push(first->left);
+        cout<<front->data<<" ";    
+
+        if(front->left){
+            pendingNodes.push(front->left);
         }
-        if (first->right != NULL) {
-            q.push(first->right);
+        if(front->right){
+            pendingNodes.push(front->right);
         }
     }
 }
