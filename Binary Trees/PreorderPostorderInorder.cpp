@@ -1,6 +1,8 @@
 #include <iostream>
 #include"binaryTreeNode.h"
 using namespace std;
+
+// root -> left -> right
 void preorder(binaryTreeNode<int>* root){
     if(root == NULL){
         return;
@@ -9,6 +11,8 @@ void preorder(binaryTreeNode<int>* root){
     preorder(root->left);
     preorder(root->right);
 }
+
+// left -> right -> root
 void postorder(binaryTreeNode<int>* root){
     if(root == NULL){
         return;
@@ -17,6 +21,8 @@ void postorder(binaryTreeNode<int>* root){
     postorder(root->right);
     cout<<root->data<<" ";
 }
+
+// left -> root -> right  
 void inorder(binaryTreeNode<int>* root){
     if(root == NULL){
         return;

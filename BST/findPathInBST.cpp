@@ -1,5 +1,5 @@
 #include <iostream>
-#include"binaryTreeNode.h"
+#include"binarySearchTree.h"
 using namespace std;
 
 vector<int>* findPath(binaryTreeNode<int>* root, int data){
