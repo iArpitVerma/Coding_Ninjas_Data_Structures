@@ -72,8 +72,26 @@ bool isBST3(binaryTreeNode<int>* root, int min = INT_MIN, int max = INT_MAX){
         return false;
     }
 
-    bool leftAns = isBST3(root->left,min,root->data-1);
-    bool rightAns = isBST3(root->right,root->data,max);
+    bool leftAns, rightAns;
+    if(root->data == min){
+        if(root->left == NULL){
+            leftAns = true;
+        }else{
+            leftAns = false;
+        }
+    }else{
+        leftAns = isBST3(root->left,min,root->data-1);
+    }
+
+    if(root->data == max){
+        if(root->right == NULL){
+            rightAns = true;
+        }else{
+            rightAns = false;
+        }
+    }else{
+        rightAns = isBST3(root->right,root->data,max);
+    }
     return leftAns && rightAns ;
 }
 
@@ -84,4 +102,5 @@ int main(){
     }else{
         cout<<"false"<<endl;
     }
+    delete root;
 }
