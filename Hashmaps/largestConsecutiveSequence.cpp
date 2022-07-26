@@ -1,55 +1,51 @@
 #include <bits/stdc++.h>
 #include<unordered_map>
 using namespace std;
-
-void largestConsecutiveSequence(int* arr, int n){
-    unordered_map<int,bool> m;
-    unordered_map<int,int> index;
-    for(int i=0;i<n;i++){
-        m[arr[i]] = true;
-        if(index.count(arr[i]) == 0){
-            index[arr[i]] = i;
-        }
+vector<int> largestConsecutive(vector<int> nums){
+    unordered_set<int> s;
+    unordered_map<int,int> elementIndex;
+    for(int i=0;i<nums.size();i++){
+        s.insert(nums[i]);
+        elementIndex[nums[i]] = i;
     }
-    int maxLength = 0, start = INT_MIN;
-    for(int i=0;i<n;i++){
-        if(m[arr[i]] == false){
+    int maxLength = 0;
+    int start = -1;
+    int index = 0;
+    for(int i=0;i<nums.size();i++){
+        if(s.count(nums[i] - 1)){
             continue;
         }
-        int j = arr[i] ; int nstart = arr[i], size = 1;
-        while(m.count(j)> 0 && m[j] ==  true){
-            size++;
+        int nstart = nums[i];
+        int j = 1;
+        while(s.count(nums[i] + j)){
             j++;
-            m[j] = false;
         }
-        j = arr[i]-1;
-        while(m.count(j)>0 && m[j] == true){
-            size++;
-            nstart--;
-            j--;
-            m[j] = false;
-        }
-        if(size > maxLength ){
-            maxLength = size;
+        if(j>maxLength){
+            maxLength = j;
             start = nstart;
-        }else if( size == maxLength){
-            if(index[start] >index[nstart]){
+        }else if(j == maxLength){
+            if(elementIndex[start] > elementIndex[nstart]){
                 start = nstart;
             }
         }
-        
-        cout<<start<<" "<<maxLength<<endl;
-                
     }
-
-    cout<<start<<" "<<start+maxLength-1<<endl;
+    vector<int> v;
+    v.push_back(start);
+    v.push_back(start+maxLength-1);
+    return v;
 }
 int main(){
     int n;
     cin>>n;
-    int arr[n];
+    vector<int> v;
     for(int i=0;i<n;i++){
-        cin>>arr[i];
+        int temp;
+        cin>>temp;
+        v.push_back(temp);
     }
-    largestConsecutiveSequence(arr,n);
+    vector<int> a = largestConsecutive(v);
+    for(int i=0;i<2;i++){
+        cout<<a[i]<<" ";
+    }
+    cout<<endl;
 }
