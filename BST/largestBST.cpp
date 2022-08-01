@@ -39,8 +39,6 @@ isBST heightOfBST(binaryTreeNode<int>* root){
     output.isBst = checkBST;
     output.height = BstHeight;
     return output;
-
-    
 }
 int main(){
     binaryTreeNode<int>* root = takeInputLevelWise();
