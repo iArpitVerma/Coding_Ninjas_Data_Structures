@@ -2,7 +2,7 @@
 #include<vector>
 #include<climits>
 using namespace std;
-// Brute Force
+// Brute Force - O(3^n)
 int minCostPath(vector<vector<int>> input,int m,int n, int i, int j){
     if(i == m-1 && j == n-1){
         return input[i][j];
@@ -17,7 +17,7 @@ int minCostPath(vector<vector<int>> input,int m,int n, int i, int j){
     return input[i][j] + min(x,min(y,z));
 }
 
-// Memoization
+// Memoization - o(m*n)
 int minCostPath1(vector<vector<int>> input, int m,int n, int i, int j,vector<vector<int>> output){
     if(i == m-1 && j == n-1){
         return input[i][j];
@@ -40,9 +40,34 @@ int minCostPath1(vector<vector<int>> input, int m,int n, int i, int j,vector<vec
     return ans;
 }
 
-// DP
-int minCostPath2(vector<vector<int>> input, int m, int n,int i, int j){
-    
+// DP - O(m*n)
+int minCostPath2(vector<vector<int>> input, int m, int n){
+    int** output = new int*[m];
+    for(int i=0;i<m;i++){
+        output[i] = new int[n];
+    }
+
+    // Fill the last cell
+    output[m-1][n-1] = input[m-1][n-1];
+
+    // Fill the last column 
+    for(int i=m-2;i>=0;i--){
+        output[i][n-1] = output[i+1][n-1] + input[i][n-1];
+    }
+
+    // Fill the last row
+    for(int i=n-2;i>=0;i--){
+        output[m-1][i] = output[m-1][i+1] + input[m-1][i];
+    }
+
+    // Fill the remaining ones
+    for(int i=m-2;i>=0;i--){
+        for(int j=n-2;j>=0;j--){
+            output[i][j] = input[i][j] + min(output[i+1][j], min(output[i][j+1],output[i+1][j+1]));
+        }
+    }
+
+    return output[0][0];
 }
 int main(){
     int m,n;
@@ -58,4 +83,5 @@ int main(){
     cout<<minCostPath(input,m,n,0,0)<<endl;
     vector<vector<int>> output(m,vector<int> (n,-1));
     cout<<minCostPath1(input,m,n,0,0,output)<<endl;
+    cout<<minCostPath2(input,m,n);
 }
